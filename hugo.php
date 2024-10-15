@@ -11,7 +11,7 @@ if ($icsContent === false) {
 }
 
 // Parse the ICS content
-$events = [];<?php
+$events = [];
 
 $lines = explode("\n", $icsContent);
 $currentEvent = null;
