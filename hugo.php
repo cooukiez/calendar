@@ -1,6 +1,6 @@
 <?php
 // Set the ICS URL
-$icsUrl = 'c';
+$icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b';
 
 // Fetch the ICS content
 $icsContent = file_get_contents($icsUrl);
