@@ -81,7 +81,8 @@ body.ec-dark svg.light {
     background: 0 0;
     opacity: .8;
     cursor: pointer;
-    padding-bottom: 1rem;
+    padding-top: .2rem;
+    padding-bottom: .5rem;
 }
 
 .toggle-dark-button svg {

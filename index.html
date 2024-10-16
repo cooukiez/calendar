@@ -81,10 +81,12 @@
                     });
                 }
             } else {
+                // Non-recurring event
                 eventList.push({
                     summary: vevent.summary,
                     startDate: vevent.startDate.toJSDate(),
                     endDate: vevent.endDate.toJSDate(),
+                    allDay: vevent.startDate.isDate
                 });
             }
         });
@@ -112,6 +114,7 @@
                 start: event.startDate.toISOString(), // Use ISO string for the start time
                 end: event.endDate.toISOString(), // Use ISO string for the end time
                 content: event.summary,
+                allDay: event.allDay
             })),
             views: {
                 timeGridWeek: {
