@@ -1,0 +1,144 @@
+.fc-event.fc-event-hori.fc-event-draggable.fc-event-start.fc-event-end{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.fc-event-time, .fc-event-title {
+    padding-left: 3px;
+}
+
+td.day:hover{
+    border-radius: 50px;
+}
+
+td.day.active{
+    border-radius: 50px;
+}
+
+/* Style for Agenda View*/
+
+.agendaDate{
+    color: #938039; width: 300px; display:inline-block;
+}
+
+.pecDate{
+    color: black;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.agendaTime{
+    margin-left: 50px;
+}
+
+.pecTime{
+    margin-left: 20px;
+    font-size: 12px;
+}
+
+.agendaTitle{
+    color: blue; font: Tahoma; margin-left: 50px;
+}
+
+.agendaTitle:hover{
+    cursor: pointer;
+    opacity: 0.70;
+}
+
+.pecTitle{
+    color: #25a7ca; font-family: "Open Sans",Helvetica,Arial,sans-serif; margin-left: 0px;
+}
+
+.pecTitle:hover{
+    cursor: pointer;
+    opacity: 0.70;
+}
+
+.fc-agenda .ui-resizable-resizing { /* TODO: better selector */
+    _overflow: hidden;
+}
+
+.gcal-event {
+    /*
+    background-image: url('start/images/google.png');
+    background-repeat: no-repeat;
+    */
+}
+
+.gcal-event-1 {
+    background-color: #3a87ad;
+    border-color: #3a87ad;
+}
+
+.gcal-event-2 {
+    background-color: #eaff00;
+    border-color: #eaff00;
+}
+
+.gcal-event-3 {
+    background-color: #f903a5;
+    border-color: #f903a5;
+}
+
+.gcal-event-4 {
+    background-color: #1a9b05;
+    border-color: #1a9b05;
+}
+
+.gcal-event-5 {
+    background-color: #0c2ddd;
+    border-color: #0c2ddd;
+}
+
+.gcal-event-6 {
+    background-color: #ff4206;
+    border-color: #ff4206;
+}
+
+.gcal-event-7 {
+    background-color: #17cccc;
+    border-color: #17cccc;
+}
+
+.gcal-event-8 {
+    background-color: #0a0003;
+    border-color: #0a0003;
+}
+
+.gcal-event-9 {
+    background-color: #a8a8a8;
+    border-color: #a8a8a8;
+}
+
+.fc-button-agendaDay.fc-state-default.fc-corner-right {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.fc-button-month.fc-state-default.fc-corner-right {
+    border-radius: 0;
+}
+
+.fc-button-agendaWeek.fc-state-default.fc-corner-right {
+    border-radius: 0;
+}
+
+.fc-button-pec.fc-state-default.fc-corner-right {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+
+.ris_pagination_item_hide {
+    display: none;
+}
+
+.ris_pagination_item_show {
+    display: inline-block;
+}
+
+.fc-button-list.fc-state-default.fc-corner-right {
+    /* border-radius: 0; */
+}

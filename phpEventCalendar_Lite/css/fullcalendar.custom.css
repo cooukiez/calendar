@@ -1,0 +1,18 @@
+.fc-event.fc-event-hori.fc-event-draggable.fc-event-start.fc-event-end{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.fc-event-time, .fc-event-title {
+    padding-left: 3px;
+}
+
+td.day:hover{
+    border-radius: 50px;
+}
+
+td.day.active{
+    border-radius: 50px;
+}

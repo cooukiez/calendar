@@ -1,0 +1,57 @@
+.fc-event.fc-event-hori.fc-event-draggable.fc-event-start.fc-event-end{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.fc-event-time, .fc-event-title {
+    padding-left: 3px;
+}
+
+td.day:hover{
+    border-radius: 50px;
+}
+
+td.day.active{
+    border-radius: 50px;
+}
+
+.pec-upcoming-event{
+    margin-bottom: 45px;
+    height: auto;
+    width: 100%;
+}
+
+.pec-upcoming-datetime{
+    font-weight: bold;
+    color:#000000;
+    margin: 5px 0 5px 0;
+}
+
+div.pec-upcoming-datetime > div.pec-upcoming-date{
+    /* float: left; */
+    display: inline;
+    margin-right: 5px;
+}
+
+div.pec-upcoming-datetime > div.pec-upcoming-time{
+    display:inline;
+}
+
+.pec-upcoming-loc{
+    color: gray;
+    font-size:smaller;
+    margin-bottom: 5px;
+
+}
+
+.pec-upcoming-img{
+    height: auto;
+    float: left;
+    margin-right: 10px;
+}
+
+.pec-upcoming-desc{
+    height: auto;
+}
