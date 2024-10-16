@@ -31,6 +31,29 @@
 </main>
 
 <script type="text/javascript">
+    const corsProxy = 'https://corsproxy.io/?';
+    const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
+
+    async function fetchICS() {
+        const response = await fetch(corsProxy + icsUrl);
+        const text = await response.text();
+        console.log(text);
+        return text;
+    }
+
+    function parseICS(data) {
+        const jcalData = ICAL.parse(data);
+        const comp = new ICAL.Component(jcalData);
+        const events = comp.getAllProperties('vevent');
+        return events.map(event => {
+            return {
+                summary: event.getFirstPropertyValue('summary'),
+                start: event.getFirstPropertyValue('dtstart').toString(),
+                end: event.getFirstPropertyValue('dtend').toString()
+            };
+        });
+    }
+
     const ec = new EventCalendar(document.getElementById('ec'), {
         view: 'timeGridWeek',
         headerToolbar: {
