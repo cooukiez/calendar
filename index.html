@@ -79,6 +79,7 @@
                         endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
                         allDay: vevent.startDate.isDate,
                         description: vevent.description,
+                        categories: vevent.component.getFirstPropertyValue('categories'),
                     });
                 }
             } else {
@@ -89,6 +90,7 @@
                     endDate: vevent.endDate.toJSDate(),
                     allDay: vevent.startDate.isDate,
                     description: vevent.description,
+                    categories: vevent.component.getFirstPropertyValue('categories'),
                 });
             }
         });
@@ -99,6 +101,12 @@
     // Fetch and parse the ICS data
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
+        console.log(events)
+        const mCategories = new Map([
+                ['Klausur', '#ff0000'],
+                ["banana", 2],
+                ["cherry", 3]
+            ]);
 
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
@@ -118,7 +126,8 @@
                 allDay: event.allDay,
                 extendedProps: {
                     description: event.description,
-                }
+                },
+                color: mCategories.get(event.categories) || '#000000',
             })),
             views: {
                 timeGridWeek: {
