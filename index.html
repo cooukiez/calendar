@@ -66,6 +66,8 @@
             const rrule = vevent.component.getFirstPropertyValue('rrule');
             const startDate = vevent.startDate.toJSDate();
             const endDate = vevent.endDate.toJSDate();
+            const location = vevent.component.getFirstPropertyValue('categories');
+            const category = vevent.component.getFirstPropertyValue('categories');
 
             if (rrule) {
                 // Handle recurrence using ical.js and expand the RRULE
@@ -79,7 +81,8 @@
                         endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
                         allDay: vevent.startDate.isDate,
                         description: vevent.description,
-                        categories: vevent.component.getFirstPropertyValue('categories'),
+                        category: category || null,
+                        location: location || null,
                     });
                 }
             } else {
@@ -90,7 +93,8 @@
                     endDate: vevent.endDate.toJSDate(),
                     allDay: vevent.startDate.isDate,
                     description: vevent.description,
-                    categories: vevent.component.getFirstPropertyValue('categories'),
+                    category: category || null,
+                    location: location || null,
                 });
             }
         });
@@ -125,9 +129,10 @@
                 end: event.endDate,
                 allDay: event.allDay,
                 extendedProps: {
-                    description: event.description,
+                    description: event.description || null,
+                    category: event.category || null,
                 },
-                color: mCategories.get(event.categories) || '#000000',
+                color: mCategories.get(event.category) || '#000000',
             })),
             views: {
                 timeGridWeek: {
@@ -157,7 +162,11 @@
                         ${event.title}
                     </div>
                     <div class="desc">${event.extendedProps.description || ''}</div>
-                    <div class="subtext">${event.start.toLocaleString()}</div>
+                    <div class="subtext">
+                        ${event.extendedProps.location || ''}
+                        ${event.extendedProps.category || ''}
+                        ${event.start.toLocaleString()}
+                    </div>
                 `;
 
                 detailsBox.classList.add('event-details-box');
