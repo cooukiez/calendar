@@ -155,7 +155,7 @@
 
                 const rect = eventElement.getBoundingClientRect();
                 detailsBox.style.left = `${rect.left}px`;
-                detailsBox.style.top = `${rect.bottom}px`;
+                detailsBox.style.top = `${rect.bottom + window.pageYOffset}px`;
 
                 document.body.appendChild(detailsBox);
             },
