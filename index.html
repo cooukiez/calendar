@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -132,8 +132,17 @@
                     description: event.description || null,
                     category: event.category || null,
                 },
-                color: mCategories.get(event.category) || '#000000',
+                color: mCategories.get(event.category) || '#2E8B57',
             })),
+
+            buttonText: {
+                listWeek: 'Liste',
+                dayGridMonth: 'Monat',
+                timeGridWeek: 'Woche',
+                timeGridDay: 'Tag',
+                today: 'heute',
+            },
+
             views: {
                 timeGridWeek: {
                     pointer: true,
