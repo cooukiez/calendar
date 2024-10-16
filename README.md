@@ -12,3 +12,5 @@ Calendar library https://github.com/vkurko/calendar
 - [ ] set scroll time to current time
 - [ ] differentiate past events
 - [ ] onclick event function
+- [ ] timeline
+- [ ] filtering events
