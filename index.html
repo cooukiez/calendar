@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.0/ical.min.js"></script>
-
 </head>
 
 <body>
@@ -64,11 +63,30 @@
 
         events.forEach(event => {
             const vevent = new ICAL.Event(event);
-            eventList.push({
-                summary: vevent.summary,
-                startDate: vevent.startDate.toJSDate(),
-                endDate: vevent.endDate.toJSDate(),
-            });
+            const rrule = vevent.component.getFirstPropertyValue('rrule');
+            const startDate = vevent.startDate.toJSDate();
+            const endDate = vevent.endDate.toJSDate();
+
+            if (rrule) {
+                // Handle recurrence using ical.js and expand the RRULE
+                const iterator = rrule.iterator(vevent.startDate);
+                let next; // next date for the event
+                while ((next = iterator.next())) {
+                    // Create the event for each occurrence
+                    eventList.push({
+                        summary: vevent.summary,
+                        startDate: next.toJSDate(),
+                        endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
+                        allDay: vevent.startDate.isDate
+                    });
+                }
+            } else {
+                eventList.push({
+                    summary: vevent.summary,
+                    startDate: vevent.startDate.toJSDate(),
+                    endDate: vevent.endDate.toJSDate(),
+                });
+            }
         });
 
         return eventList;
@@ -98,9 +116,9 @@
             views: {
                 timeGridWeek: {
                     pointer: true,
-                    slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }, // 24h time format
+                    slotLabelFormat: {hour: '2-digit', minute: '2-digit', hour12: false}, // 24h time format
                 },
-                resourceTimeGridWeek: { pointer: true },
+                resourceTimeGridWeek: {pointer: true},
             },
 
             dayMaxEvents: true,
