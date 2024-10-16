@@ -158,11 +158,6 @@
                 detailsBox.style.top = `${rect.bottom}px`;
 
                 document.body.appendChild(detailsBox);
-
-                const closeButton = detailsBox.querySelector('.close-btn');
-                closeButton.addEventListener('click', function(event) {
-                    detailsBox.remove();
-                });
             },
 
             eventMouseLeave: function (info) {
