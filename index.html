@@ -111,8 +111,10 @@
             ['Klausur', '#800080'],
             ['Wichtig', '#ff0000'],
             ['Ferien', '#4682B4'],
+            ['Veranstaltung', '#d2bf16'],
             ['Saufen', '#B22222'],
         ]);
+        mCategories.set(null, '#2E8B57');
 
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
@@ -135,7 +137,7 @@
                     location: event.location,
                     category: event.category,
                 },
-                color: mCategories.get(event.category) || defaultColor,
+                color: mCategories.get(event.category),
             })),
 
             buttonText: {
@@ -143,7 +145,7 @@
                 dayGridMonth: 'Monat',
                 timeGridWeek: 'Woche',
                 timeGridDay: 'Tag',
-                today: 'heute',
+                today: 'Heute',
             },
 
             views: {
@@ -152,8 +154,10 @@
                     slotLabelFormat: {hour: '2-digit', minute: '2-digit', hour12: false}, // 24h time format
                 },
                 resourceTimeGridWeek: {pointer: true},
+                //slotWidth: 100,
             },
 
+            slotEventOverlap: false,
             dayMaxEvents: true,
             nowIndicator: true,
 

@@ -151,3 +151,8 @@ body.ec-dark svg.light {
     font-style: normal;
     font-weight: normal;
 }
+
+/*.ec-timeline .ec-time, .ec-timeline .ec-line {
+    width: 100px;  override this value
+}
+*/
