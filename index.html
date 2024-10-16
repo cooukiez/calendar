@@ -6,11 +6,15 @@
 
     <title>Schulkalender</title>
 
+    <!-- Critical CSS first -->
     <link rel="stylesheet" href="global.css">
 
+    <!-- Load external CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.0/ical.min.js"></script>
+
+    <!-- Load scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.0/ical.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js" defer></script>
 </head>
 
 <body>
@@ -35,7 +39,7 @@
         </svg>
     </button>
 </header>
-<main class="row">
+<main class="<script>0</script>row">
     <div id="ec" class="col"></div>
 </main>
 
@@ -106,15 +110,14 @@
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
 
-        const defaultColor = '#4682B4';
         const mCategories = new Map([
             ['Klausur', '#800080'],
             ['Wichtig', '#b32f28'],
-            ['Ferien', '#4682B4'],
-            ['Veranstaltung', '#d2bf16'],
+            ['Ferien', '#2E8B57'],
+            ['Veranstaltung', '#a29417'],
             ['Saufen', '#B22222'],
         ]);
-        mCategories.set(null, '#2E8B57');
+        mCategories.set(null, '#4682B4');
 
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
@@ -189,15 +192,9 @@
 
                 const rect = eventElement.getBoundingClientRect();
                 detailsBox.style.left = `${rect.left}px`;
-                detailsBox.style.top = `${rect.bottom + window.pageYOffset}px`;
+                detailsBox.style.top = `${rect.bottom + window.scrollY}px`;
 
                 document.body.appendChild(detailsBox);
-
-                window.addEventListener('scroll', () => {
-                    const scrollY = window.scrollY; // Get the vertical scroll position
-                    console.log(scrollY);
-                    detailsBox.style.top = `${rect.bottom + scrollY}px`;
-                });
             },
 
             eventMouseLeave: function (info) {
