@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.0.0/ical.min.js"></script>
 
     <style>
         .ec-timeline .ec-time, .ec-timeline .ec-line {
@@ -34,65 +35,18 @@
     const corsProxy = 'https://corsproxy.io/?';
     const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
 
-    async function fetchICS() {
-        const response = await fetch(corsProxy + icsUrl);
-        const text = await response.text();
-        console.log(text);
-        return text;
-    }
-
-    function parseICS(data) {
-        const jcalData = ICAL.parse(data);
-        const comp = new ICAL.Component(jcalData);
-        const events = comp.getAllProperties('vevent');
-        return events.map(event => {
-            return {
-                summary: event.getFirstPropertyValue('summary'),
-                start: event.getFirstPropertyValue('dtstart').toString(),
-                end: event.getFirstPropertyValue('dtend').toString()
-            };
-        });
-    }
-
     const ec = new EventCalendar(document.getElementById('ec'), {
         view: 'timeGridWeek',
         headerToolbar: {
             start: 'prev,next today',
             center: 'title',
-            end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek,resourceTimelineWeek'
+            end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
-        resources: [
-            {id: 1, title: 'Resource A'},
-            {id: 2, title: 'Resource B'}
-        ],
-        scrollTime: '09:00:00',
+        scrollTime: '09:00:00', // Todo: current time
         events: createEvents(),
         views: {
             timeGridWeek: {pointer: true},
             resourceTimeGridWeek: {pointer: true},
-            resourceTimelineWeek: {
-                pointer: true,
-                slotMinTime: '09:00',
-                slotMaxTime: '21:00',
-                slotWidth: 80,
-                resources: [
-                    {id: 1, title: 'Resource A'},
-                    {id: 2, title: 'Resource B'},
-                    {id: 3, title: 'Resource C'},
-                    {id: 4, title: 'Resource D'},
-                    {id: 5, title: 'Resource E'},
-                    {id: 6, title: 'Resource F'},
-                    {id: 7, title: 'Resource G'},
-                    {id: 8, title: 'Resource H'},
-                    {id: 9, title: 'Resource I'},
-                    {id: 10, title: 'Resource J'},
-                    {id: 11, title: 'Resource K'},
-                    {id: 12, title: 'Resource L'},
-                    {id: 13, title: 'Resource M'},
-                    {id: 14, title: 'Resource N'},
-                    {id: 15, title: 'Resource O'}
-                ]
-            }
         },
         dayMaxEvents: true,
         nowIndicator: true,
