@@ -106,10 +106,10 @@
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
 
-        const defaultColor = '#2E8B57';
+        const defaultColor = '#4682B4';
         const mCategories = new Map([
             ['Klausur', '#800080'],
-            ['Wichtig', '#ff0000'],
+            ['Wichtig', '#b32f28'],
             ['Ferien', '#4682B4'],
             ['Saufen', '#B22222'],
         ]);
@@ -188,6 +188,12 @@
                 detailsBox.style.top = `${rect.bottom + window.pageYOffset}px`;
 
                 document.body.appendChild(detailsBox);
+
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY; // Get the vertical scroll position
+                    console.log(scrollY);
+                    detailsBox.style.top = `${rect.bottom + scrollY}px`;
+                });
             },
 
             eventMouseLeave: function (info) {
