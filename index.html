@@ -171,13 +171,6 @@
                 closeButton.addEventListener('click', function(event) {
                     detailsBox.remove();
                 });
-
-                document.addEventListener('click', function(event) {
-                    console.log(event.target);
-                    if (event.target.id !== detailsBox.id || !detailsBox.contains(event.target)) {
-                        detailsBox.remove();
-                    }
-                });
             },
         });
     });
