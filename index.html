@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.0.0/ical.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.0/ical.min.js"></script>
 
     <style>
         .ec-timeline .ec-time, .ec-timeline .ec-line {
@@ -69,11 +69,11 @@
 
         events.forEach(event => {
             const vevent = new ICAL.Event(event);
+            console.log(vevent)
             eventList.push({
                 summary: vevent.summary,
                 startDate: vevent.startDate.toJSDate(),
                 endDate: vevent.endDate.toJSDate(),
-                rrule: vevent.rrule,
             });
         });
 
@@ -83,7 +83,7 @@
     // Fetch and parse the ICS data
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
-
+    console.log(events)
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
             locale: 'de',
