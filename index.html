@@ -136,35 +136,27 @@
             eventStartEditable: false, // Disable editing the start time
             eventDurationEditable: false, // Disable editing the duration
 
-            eventClick: function (info) {
+            eventMouseEnter: function (info) {
                 const event = info.event;
-
-                // Remove any existing event details box
-                const existingBox = document.getElementById('event-details-box');
-                if (existingBox) {
-                    existingBox.remove();
-                }
+                const eventElement = info.el;
 
                 // Create a new div element for the event details box
                 const detailsBox = document.createElement('div');
                 detailsBox.id = 'event-details-box';
                 detailsBox.innerHTML = `
-                    <div class="event-details-title">
+                    <div class="title">
                         ${event.title}
-                        <button class="close-btn">&times;</button>
                     </div>
-                    <div class="event-description">${event.extendedProps.description || ''}</div>
-                    <div class="event-subtext">${event.start.toLocaleString()}</div>
+                    <div class="desc">${event.extendedProps.description || ''}</div>
+                    <div class="subtext">${event.start.toLocaleString()}</div>
                 `;
 
-                // Apply the custom styles
                 detailsBox.classList.add('event-details-box');
 
-                // Position the box near the mouse position
-                detailsBox.style.left = `${info.jsEvent.pageX}px`;
-                detailsBox.style.top = `${info.jsEvent.pageY}px`;
+                const rect = eventElement.getBoundingClientRect();
+                detailsBox.style.left = `${rect.left}px`;
+                detailsBox.style.top = `${rect.bottom}px`;
 
-                // Append the box to the body
                 document.body.appendChild(detailsBox);
 
                 const closeButton = detailsBox.querySelector('.close-btn');
@@ -172,6 +164,13 @@
                     detailsBox.remove();
                 });
             },
+
+            eventMouseLeave: function (info) {
+                const existingBox = document.getElementById('event-details-box');
+                if (existingBox) {
+                    existingBox.remove();
+                }
+            }
         });
     });
 

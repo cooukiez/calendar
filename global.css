@@ -106,6 +106,13 @@ body.ec-dark svg.light {
     font-size: 14px;
 }
 
+.ec-dark .event-details-box {
+    color: #adbac7;
+    background-color: #22272e; /* Dark background for the box */
+    border: 1px solid #5c697c; /* Slightly lighter border */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* More pronounced shadow for depth */
+}
+
 .event-details-box strong {
     font-size: 16px;
     display: block;
@@ -115,30 +122,18 @@ body.ec-dark svg.light {
     cursor: pointer;
 }
 
-.event-details-title {
+.event-details-box .title {
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 10px;
-    width: 80%;
 }
 
-.event-description {
+.event-details-box .desc {
     font-size: 14px;
     margin-bottom: 5px;
 }
 
-.event-subtext {
+.event-details-box .subtext {
     font-size: 12px;
     color: #666;
-}
-
-.event-details-box .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #666;
-    cursor: pointer;
 }
