@@ -22,3 +22,6 @@ foreach ($events as $event) {
         'location' => $event->location
     ];
 }
+
+// Pass the event data to the HTML template
+include 'calendar_template.php';
