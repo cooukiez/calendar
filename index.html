@@ -98,6 +98,7 @@
                 title: event.summary,
                 start: event.startDate.toISOString(), // Use ISO string for the start time
                 end: event.endDate.toISOString(), // Use ISO string for the end time
+                content: event.summary,
             })),
             views: {
                 timeGridWeek: {
@@ -112,10 +113,8 @@
 
             firstDay: 1, // Monday
 
-            editable: false, // Disable event editing
-            selectable: false, // Disable selecting events
-            eventResize: false, // Disable resizing events
-            eventDrop: false, // Disable dragging events
+            eventStartEditable: false, // Disable editing the start time
+            eventDurationEditable: false, // Disable editing the duration
         });
     });
 
