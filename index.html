@@ -149,10 +149,13 @@
                 const detailsBox = document.createElement('div');
                 detailsBox.id = 'event-details-box';
                 detailsBox.innerHTML = `
-        <strong>Event:</strong> ${event.title}<br>
-        <strong>Description:</strong> ${event.extendedProps.description || 'No description'}<br>
-        <strong>Date:</strong> ${event.start.toLocaleString()}
-    `;
+                    <div class="event-details-title">
+                        ${event.title}
+                        <button class="close-btn">&times;</button>
+                    </div>
+                    <div class="event-description">${event.extendedProps.description || ''}</div>
+                    <div class="event-subtext">${event.start.toLocaleString()}</div>
+                `;
 
                 // Apply the custom styles
                 detailsBox.classList.add('event-details-box');
@@ -163,6 +166,18 @@
 
                 // Append the box to the body
                 document.body.appendChild(detailsBox);
+
+                const closeButton = detailsBox.querySelector('.close-btn');
+                closeButton.addEventListener('click', function(event) {
+                    detailsBox.remove();
+                });
+
+                document.addEventListener('click', function(event) {
+                    console.log(event.target);
+                    if (event.target.id !== detailsBox.id || !detailsBox.contains(event.target)) {
+                        detailsBox.remove();
+                    }
+                });
             },
         });
     });

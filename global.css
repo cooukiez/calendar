@@ -92,33 +92,53 @@ body.ec-dark svg.light {
 
 /* eventDetails.css */
 .event-details-box {
+    color: inherit;
     position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 200px;
+    z-index: 3000;
+    width: 300px;
+
     font-family: Arial, sans-serif;
     font-size: 14px;
 }
 
 .event-details-box strong {
+    font-size: 16px;
     display: block;
-    margin-bottom: 5px;
-}
-
-.event-details-box:after {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: 10px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent #ccc transparent;
 }
 
 .event-details-box:hover {
+    cursor: pointer;
+}
+
+.event-details-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.event-description {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.event-subtext {
+    font-size: 12px;
+    color: #666;
+}
+
+.event-details-box .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
     cursor: pointer;
 }
