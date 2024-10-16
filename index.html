@@ -66,7 +66,7 @@
             const rrule = vevent.component.getFirstPropertyValue('rrule');
             const startDate = vevent.startDate.toJSDate();
             const endDate = vevent.endDate.toJSDate();
-            const location = vevent.component.getFirstPropertyValue('categories');
+            const location = vevent.component.getFirstPropertyValue('location');
             const category = vevent.component.getFirstPropertyValue('categories');
 
             if (rrule) {
@@ -106,6 +106,7 @@
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
 
+        const defaultColor = '#4682B4';
         const mCategories = new Map([
             ['Klausur', '#ff0000'],
             ["banana", 2],
@@ -133,7 +134,7 @@
                     location: event.location,
                     category: event.category,
                 },
-                color: mCategories.get(event.category) || '#4682B4',
+                color: mCategories.get(event.category) || defaultColor,
             })),
             views: {
                 timeGridWeek: {
@@ -158,14 +159,13 @@
                 // Create a new div element for the event details box
                 const detailsBox = document.createElement('div');
                 detailsBox.id = 'event-details-box';
-                const location_category_same = event.extendedProps.location === event.extendedProps.category;
                 detailsBox.innerHTML = `
                     <div class="title">
                         ${event.title}
                     </div>
                     <div class="desc">${event.extendedProps.description || ''}</div>
                     <div class="subtext">
-                        ${event.extendedProps.location && location_category_same ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
+                        ${event.extendedProps.location ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
                         ${event.extendedProps.category ? '<span class="nerd-icon">\uea83 </span>' + event.extendedProps.category + '<br>' : ''}
                         ${event.start.toLocaleString()}
                     </div>
