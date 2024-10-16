@@ -1,48 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Custom Calendar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Event Calendar</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="global.css?20231021">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js"></script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(75029251, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/75029251" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
+        .ec-timeline .ec-time, .ec-timeline .ec-line {
+            width: 80px;
         }
     </style>
 </head>
+
 <body>
-    <h1>My Custom Calendar</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Location</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($eventData)): ?>
-                <?php foreach ($eventData as $event): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($event['summary']); ?></td>
-                        <td><?= htmlspecialchars($event['dtstart']); ?></td>
-                        <td><?= htmlspecialchars($event['dtend']); ?></td>
-                        <td><?= htmlspecialchars($event['location']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr><td colspan="4">No events available</td></tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+
+<header class="row">
+    <button class="toggle-dark-button" title="Toggle dark mode" onclick="document.body.classList.toggle('ec-dark')">
+        <svg class="light" focusable="false" viewBox="0 0 32 32"><path d="M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6z" fill="currentColor"></path><path d="M5.394 6.813l1.414-1.415l3.506 3.506L8.9 10.318z" fill="currentColor"></path><path d="M2 15.005h5v2H2z" fill="currentColor"></path><path d="M5.394 25.197L8.9 21.691l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 25.005h2v5h-2z" fill="currentColor"></path><path d="M21.687 23.106l1.414-1.415l3.506 3.506l-1.414 1.414z" fill="currentColor"></path><path d="M25 15.005h5v2h-5z" fill="currentColor"></path><path d="M21.687 8.904l3.506-3.506l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 2.005h2v5h-2z" fill="currentColor"></path></svg>
+        <svg class="dark" focusable="false" viewBox="0 0 32 32"><path d="M13.502 5.414a15.075 15.075 0 0 0 11.594 18.194a11.113 11.113 0 0 1-7.975 3.39c-.138 0-.278.005-.418 0a11.094 11.094 0 0 1-3.2-21.584M14.98 3a1.002 1.002 0 0 0-.175.016a13.096 13.096 0 0 0 1.825 25.981c.164.006.328 0 .49 0a13.072 13.072 0 0 0 10.703-5.555a1.01 1.01 0 0 0-.783-1.565A13.08 13.08 0 0 1 15.89 4.38A1.015 1.015 0 0 0 14.98 3z" fill="currentColor"></path></svg>
+    </button>
+</header>
+<main class="row">
+    <div id="ec" class="col"></div>
+</main>
+
+<script type="text/javascript">
+    const ec = new EventCalendar(document.getElementById('ec'), {
+        view: 'timeGridWeek',
+        headerToolbar: {
+            start: 'prev,next today',
+            center: 'title',
+            end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek,resourceTimelineWeek'
+        },
+        resources: [
+            {id: 1, title: 'Resource A'},
+            {id: 2, title: 'Resource B'}
+        ],
+        scrollTime: '09:00:00',
+        events: createEvents(),
+        views: {
+            timeGridWeek: {pointer: true},
+            resourceTimeGridWeek: {pointer: true},
+            resourceTimelineWeek: {
+                pointer: true,
+                slotMinTime: '09:00',
+                slotMaxTime: '21:00',
+                slotWidth: 80,
+                resources: [
+                    {id: 1, title: 'Resource A'},
+                    {id: 2, title: 'Resource B'},
+                    {id: 3, title: 'Resource C'},
+                    {id: 4, title: 'Resource D'},
+                    {id: 5, title: 'Resource E'},
+                    {id: 6, title: 'Resource F'},
+                    {id: 7, title: 'Resource G'},
+                    {id: 8, title: 'Resource H'},
+                    {id: 9, title: 'Resource I'},
+                    {id: 10, title: 'Resource J'},
+                    {id: 11, title: 'Resource K'},
+                    {id: 12, title: 'Resource L'},
+                    {id: 13, title: 'Resource M'},
+                    {id: 14, title: 'Resource N'},
+                    {id: 15, title: 'Resource O'}
+                ]
+            }
+        },
+        dayMaxEvents: true,
+        nowIndicator: true,
+        selectable: true
+    });
+
+    function createEvents() {
+        let days = [];
+        for (let i = 0; i < 7; ++i) {
+            let day = new Date();
+            let diff = i - day.getDay();
+            day.setDate(day.getDate() + diff);
+            days[i] = day.getFullYear() + "-" + _pad(day.getMonth()+1) + "-" + _pad(day.getDate());
+        }
+
+        return [
+            {start: days[0] + " 00:00", end: days[0] + " 09:00", resourceId: 1, display: "background"},
+            {start: days[1] + " 12:00", end: days[1] + " 14:00", resourceId: 2, display: "background"},
+            {start: days[2] + " 17:00", end: days[2] + " 24:00", resourceId: 1, display: "background"},
+            {start: days[0] + " 10:00", end: days[0] + " 14:00", resourceId: 1, title: "The calendar can display background and regular events", color: "#FE6B64"},
+            {start: days[1] + " 16:00", end: days[2] + " 08:00", resourceId: 2, title: "An event may span to another day", color: "#B29DD9"},
+            {start: days[2] + " 09:00", end: days[2] + " 13:00", resourceId: 2, title: "Events can be assigned to resources and the calendar has the resources view built-in", color: "#779ECB"},
+            {start: days[3] + " 14:00", end: days[3] + " 20:00", resourceId: 1, title: "", color: "#FE6B64"},
+            {start: days[3] + " 15:00", end: days[3] + " 18:00", resourceId: 1, title: "Overlapping events are positioned properly", color: "#779ECB"},
+            {start: days[5] + " 10:00", end: days[5] + " 16:00", resourceId: 2, title: {html: "You have complete control over the <i><b>display</b></i> of events…"}, color: "#779ECB"},
+            {start: days[5] + " 14:00", end: days[5] + " 19:00", resourceId: 2, title: "…and you can drag and drop the events!", color: "#FE6B64"},
+            {start: days[5] + " 18:00", end: days[5] + " 21:00", resourceId: 2, title: "", color: "#B29DD9"},
+            {start: days[1], end: days[3], resourceId: 1, title: "All-day events can be displayed at the top", color: "#B29DD9", allDay: true}
+        ];
+    }
+
+    function _pad(num) {
+        let norm = Math.floor(Math.abs(num));
+        return (norm < 10 ? '0' : '') + norm;
+    }
+</script>
 </body>
 </html>
