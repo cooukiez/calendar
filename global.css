@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'NerdFont';
+    src: url('./fonts/MesloLGM.ttf') format('truetype'); /* Ensure the path is correct */
+    font-weight: 400; /* Normal weight */
+    font-style: normal; /* Normal style */
+    font-stretch: normal; /* Default stretch */
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     padding: 0 40px;
@@ -136,4 +144,10 @@ body.ec-dark svg.light {
 .event-details-box .subtext {
     font-size: 12px;
     color: #666;
+}
+
+.nerd-icon {
+    font-family: 'NerdFont', sans-serif;
+    font-style: normal;
+    font-weight: normal;
 }

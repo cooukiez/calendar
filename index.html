@@ -66,7 +66,7 @@
             const rrule = vevent.component.getFirstPropertyValue('rrule');
             const startDate = vevent.startDate.toJSDate();
             const endDate = vevent.endDate.toJSDate();
-            const location = vevent.component.getFirstPropertyValue('categories');
+            const location = vevent.component.getFirstPropertyValue('location');
             const category = vevent.component.getFirstPropertyValue('categories');
 
             if (rrule) {
@@ -81,8 +81,8 @@
                         endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
                         allDay: vevent.startDate.isDate,
                         description: vevent.description,
-                        category: category || null,
-                        location: location || null,
+                        category: category,
+                        location: location,
                     });
                 }
             } else {
@@ -93,8 +93,8 @@
                     endDate: vevent.endDate.toJSDate(),
                     allDay: vevent.startDate.isDate,
                     description: vevent.description,
-                    category: category || null,
-                    location: location || null,
+                    category: category,
+                    location: location,
                 });
             }
         });
@@ -105,12 +105,13 @@
     // Fetch and parse the ICS data
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
-        console.log(events)
+
+        const defaultColor = '#4682B4';
         const mCategories = new Map([
-                ['Klausur', '#ff0000'],
-                ["banana", 2],
-                ["cherry", 3]
-            ]);
+            ['Klausur', '#ff0000'],
+            ["banana", 2],
+            ["cherry", 3]
+        ]);
 
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
@@ -129,10 +130,11 @@
                 end: event.endDate,
                 allDay: event.allDay,
                 extendedProps: {
-                    description: event.description || null,
-                    category: event.category || null,
+                    description: event.description,
+                    location: event.location,
+                    category: event.category,
                 },
-                color: mCategories.get(event.category) || '#2E8B57',
+                color: mCategories.get(event.category) || defaultColor,
             })),
 
             buttonText: {
@@ -172,8 +174,8 @@
                     </div>
                     <div class="desc">${event.extendedProps.description || ''}</div>
                     <div class="subtext">
-                        ${event.extendedProps.location || ''}
-                        ${event.extendedProps.category || ''}
+                        ${event.extendedProps.location ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
+                        ${event.extendedProps.category ? '<span class="nerd-icon">\uea83 </span>' + event.extendedProps.category + '<br>' : ''}
                         ${event.start.toLocaleString()}
                     </div>
                 `;
