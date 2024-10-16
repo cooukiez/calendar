@@ -82,11 +82,12 @@
     // Fetch and parse the ICS data
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
-        console.log(events); // Log the fetched events
 
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
-            view: 'timeGridWeek',
+            locale: 'de',
+
+            view: 'dayGridMonth',
             headerToolbar: {
                 start: 'prev,next today',
                 center: 'title',
@@ -99,12 +100,22 @@
                 end: event.endDate.toISOString(), // Use ISO string for the end time
             })),
             views: {
-                timeGridWeek: { pointer: true },
+                timeGridWeek: {
+                    pointer: true,
+                    slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }, // 24h time format
+                },
                 resourceTimeGridWeek: { pointer: true },
             },
+
             dayMaxEvents: true,
             nowIndicator: true,
-            selectable: true
+
+            firstDay: 1, // Monday
+
+            editable: false, // Disable event editing
+            selectable: false, // Disable selecting events
+            eventResize: false, // Disable resizing events
+            eventDrop: false, // Disable dragging events
         });
     });
 
