@@ -35,6 +35,41 @@
     const corsProxy = 'https://corsproxy.io/?';
     const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
 
+    const fetchICS = async (url) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Failed to fetch the .ics file");
+            }
+            const icsText = await response.text();
+            return icsText;
+        } catch (error) {
+            console.error("Error fetching the .ics file:", error);
+        }
+    };
+
+    const parseICS = (icsData) => {
+        const jcalData = ICAL.parse(icsData);
+        const comp = new ICAL.Component(jcalData);
+        const events = comp.getAllSubcomponents("vevent");
+        const eventList = [];
+
+        events.forEach(event => {
+            const vevent = new ICAL.Event(event);
+            eventList.push({
+                summary: vevent.summary,
+                startDate: vevent.startDate.toJSDate(),
+                endDate: vevent.endDate.toJSDate(),
+            });
+        });
+
+        return eventList;
+    };
+
+    fetchICS(icsUrl).then(icsData => {
+        const events = parseICS(icsData);
+        });
+
     const ec = new EventCalendar(document.getElementById('ec'), {
         view: 'timeGridWeek',
         headerToolbar: {
