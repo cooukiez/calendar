@@ -6,5 +6,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="@event-calendar/build" level="application" />
     <orderEntry type="library" name="@event-calendar/build" level="application" />
+    <orderEntry type="library" name="ical.js" level="application" />
   </component>
 </module>
