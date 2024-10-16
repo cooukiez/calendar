@@ -77,7 +77,8 @@
                         summary: vevent.summary,
                         startDate: next.toJSDate(),
                         endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
-                        allDay: vevent.startDate.isDate
+                        allDay: vevent.startDate.isDate,
+                        description: vevent.description,
                     });
                 }
             } else {
@@ -86,7 +87,8 @@
                     summary: vevent.summary,
                     startDate: vevent.startDate.toJSDate(),
                     endDate: vevent.endDate.toJSDate(),
-                    allDay: vevent.startDate.isDate
+                    allDay: vevent.startDate.isDate,
+                    description: vevent.description,
                 });
             }
         });
@@ -114,7 +116,8 @@
                 start: event.startDate.toISOString(), // Use ISO string for the start time
                 end: event.endDate.toISOString(), // Use ISO string for the end time
                 content: event.summary,
-                allDay: event.allDay
+                allDay: event.allDay,
+                description: event.description,
             })),
             views: {
                 timeGridWeek: {
@@ -131,6 +134,11 @@
 
             eventStartEditable: false, // Disable editing the start time
             eventDurationEditable: false, // Disable editing the duration
+
+            eventClick: function(info) {
+                const event = info.event;
+                alert(`Event: ${event.title}\nDescription: ${event.description}`);
+            }
         });
     });
 
