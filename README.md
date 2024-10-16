@@ -2,5 +2,7 @@
 Calendar library https://github.com/vkurko/calendar
 
 ## Todo
-- [ ] woche mit montag beginnen
-- [ ] timeformat in 24h
+- [x] woche mit montag beginnen
+- [x] timeformat in 24h
+- [ ] implement rrule
+- [ ] support colors
