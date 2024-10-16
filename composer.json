@@ -1,0 +1,10 @@
+{
+    "name": "kkg/calendar",
+    "description": "Kalender App made by Silas, Hugo and Ludwig",
+    "type": "project",
+    "require": {
+        "composer/composer": "^2.8",
+        "aura/autoload": "^2.0",
+        "eluceo/ical": "^2.14"
+    }
+}
