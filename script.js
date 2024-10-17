@@ -142,7 +142,6 @@ fetchICS(icsUrl).then(icsData => {
 
     mapCategories.set(null, '#4682B4');
     mapResources.set(null, 1);
-    const today = new Date();
 
     // Initialize the Event Calendar after the events have been fetched
     const ec = new EventCalendar(document.getElementById('ec'), {
@@ -217,6 +216,8 @@ fetchICS(icsUrl).then(icsData => {
                                         break;
                                     }
                                 }
+                                dropdown.remove();
+                                document.removeEventListener('click', outsideClickListener);
                             }
 
                             if (!dropdown.contains(element.target) && element.target !== event.target) {
