@@ -60,6 +60,7 @@
 
     const corsProxy = 'https://corsproxy.io/?';
     const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
+    const currentDate = new Date();
 
     const fetchICS = async (url) => {
         try {
@@ -145,7 +146,7 @@
                 center: 'title',
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
-            scrollTime: '09:00:00', // Todo: current time
+            scrollTime:  currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(), // Todo: current time
             events: events.map(event => ({
                 title: event.summary,
                 start: event.startDate,
@@ -159,7 +160,7 @@
                 color: mCategories.get(event.category),
             })),
 
-            allDayContent: 'Ganztag',
+            allDayContent: 'Ganztägig',
 
             buttonText: {
                 listWeek: 'Übersicht',
