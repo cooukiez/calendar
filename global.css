@@ -1,214 +1,238 @@
+/* Define a custom font face for 'NerdFont', using a local font file */
 @font-face {
-    font-family: 'NerdFont';
-    src: url('./fonts/MesloLGM.ttf') format('truetype'); /* Ensure the path is correct */
-    font-weight: 400; /* Normal weight */
-    font-style: normal; /* Normal style */
-    font-stretch: normal; /* Default stretch */
+    font-family: 'NerdFont'; /* Name of the custom font */
+    src: url('./fonts/MesloLGM.ttf') format('truetype'); /* Path to the font file in TrueType format */
+    font-weight: 400; /* Normal font weight */
+    font-style: normal; /* Normal font style */
+    font-stretch: normal; /* No font stretching */
 }
 
+/* Style for the body element */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    padding: 0 40px;
+    /* System fonts for better performance and consistency across platforms */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    padding: 0 40px; /* Padding around the page content */
 }
 
+/* Style for the body of calendar events */
 .ec-event-body {
-    margin-left: 0.1rem !important;
+    margin-left: 0.1rem !important; /* Adjust left margin slightly */
 }
 
+/* Placeholder for potential title styles */
 .ec-title {
-
+    /* No specific styles applied */
 }
 
+/* Media query for small screens (max width: 576px) */
 @media (max-width: 576px) {
     body {
-        padding: 0;
+        padding: 0; /* Remove padding for mobile screens */
     }
 
     html {
-        font-size: 12px;
+        font-size: 12px; /* Reduce base font size for readability */
     }
 
     h4 {
-        margin-top: 0;
+        margin-top: 0; /* Remove top margin from <h4> elements */
     }
 }
 
+/* Flexbox layout for row elements */
 .row {
-    display: flex;
+    display: flex; /* Flex layout to align children in a row */
 }
 
+/* Column layout for flexible widths */
 .col {
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: 100%;
+    flex: 1 1 0; /* Flexible grow, shrink, and base width */
+    min-width: 0; /* Prevent columns from shrinking below 0 */
+    max-width: 100%; /* Columns should not exceed full width */
 }
 
+/* Calendar container with a default height */
 .ec {
-    height: 640px;
+    height: 640px; /* Set the height of the calendar */
 }
 
+/* Specific height for the day grid view of the calendar */
 .ec.ec-day-grid {
-    height: 400px;
+    height: 400px; /* Set the height for the day grid view */
 }
 
+/* Media query for medium screens (min width: 576px) */
 @media (min-width: 576px) {
     .ec {
-        height: 700px;
+        height: 700px; /* Increase calendar height on larger screens */
     }
 
     .ec.ec-day-grid {
-        height: 500px;
+        height: 500px; /* Increase height for day grid view */
     }
 }
 
+/* Media query for large screens (min width: 992px) */
 @media (min-width: 992px) {
     .ec {
-        height: 800px;
+        height: 800px; /* Further increase calendar height */
     }
 
     .ec.ec-day-grid {
-        height: 700px;
+        height: 700px; /* Increase height for day grid view */
     }
 }
 
+/* Media query for extra-large screens (min width: 1200px) */
 @media (min-width: 1200px) {
     .ec.ec-day-grid {
-        height: 800px;
+        height: 800px; /* Maximum height for day grid on very large screens */
     }
 }
 
-/* Dark theme */
+/* Dark theme styles */
+
+/* When 'ec-dark' class is added to body, apply dark theme */
 body.ec-dark {
-    background: #22272e;
-    color: #adbac7;
+    background: #22272e; /* Dark background color */
+    color: #adbac7; /* Light text color */
 }
 
+/* Hide the dark mode icon (moon) when the light theme is active */
 body:not(.ec-dark) svg.dark {
     display: none;
 }
 
+/* Hide the light mode icon (sun) when the dark theme is active */
 body.ec-dark svg.light {
     display: none;
 }
 
+/* Style for the dark mode toggle button */
 .toggle-dark-button {
-    color: inherit;
-    border: 0;
-    background: 0 0;
-    opacity: .8;
-    cursor: pointer;
+    color: inherit; /* Inherit text color from the parent */
+    border: 0; /* Remove border */
+    background: 0 0; /* Transparent background */
+    opacity: .8; /* Slight opacity for a subtle effect */
+    cursor: pointer; /* Pointer cursor for interactivity */
     padding-top: .2rem;
-    padding-bottom: .5rem;
+    padding-bottom: .5rem; /* Padding for spacing */
 }
 
+/* Style for the SVG icons inside the toggle button */
 .toggle-dark-button svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.25rem; /* Set width */
+    height: 1.25rem; /* Set height */
 }
 
-/* eventDetails.css */
+/* Styles for the event details box (appears on hover) */
 .event-details-box {
-    color: inherit;
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 3000;
-    width: min-content;
+    color: inherit; /* Inherit the text color */
+    position: absolute; /* Position relative to the page */
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 10px; /* Padding inside the box */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Light shadow for depth */
+    z-index: 3000; /* High z-index to ensure it's on top */
+    width: min-content; /* Minimum width required to fit content */
 
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-family: Arial, sans-serif; /* Use a fallback sans-serif font */
+    font-size: 14px; /* Default font size */
 }
 
+/* Dark theme for the event details box */
 .ec-dark .event-details-box {
-    color: #adbac7;
-    background-color: #22272e; /* Dark background for the box */
+    color: #adbac7; /* Light text color */
+    background-color: #22272e; /* Dark background */
     border: 1px solid #5c697c; /* Slightly lighter border */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* More pronounced shadow for depth */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
 }
 
+/* Make strong text in event details box slightly larger */
 .event-details-box strong {
-    font-size: 16px;
-    display: block;
+    font-size: 16px; /* Larger font size */
+    display: block; /* Display as block */
 }
 
+/* Change cursor to pointer when hovering over the event details box */
 .event-details-box:hover {
     cursor: pointer;
 }
 
+/* Style for the title inside the event details box */
 .event-details-box .title {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    white-space: nowrap;
+    font-size: 15px; /* Slightly larger font for titles */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Margin below the title */
+    white-space: nowrap; /* Prevent the title from wrapping */
 }
 
+/* Style for the description text inside the event details box */
 .event-details-box .desc {
-    font-size: 14px;
-    margin-bottom: 5px;
+    font-size: 14px; /* Normal font size for descriptions */
+    margin-bottom: 5px; /* Margin below the description */
 }
 
+/* Style for additional information in the event details box */
 .event-details-box .subtext {
-    font-size: 12px;
-    color: #666;
+    font-size: 12px; /* Smaller font size for subtext */
+    color: #666; /* Lighter text color */
 }
 
+/* Style for icons within event details (using NerdFont) */
 .nerd-icon {
-    font-family: 'NerdFont', sans-serif;
-    font-style: normal;
-    font-weight: normal;
+    font-family: 'NerdFont', sans-serif; /* Use NerdFont for icons */
+    font-style: normal; /* Normal font style */
+    font-weight: normal; /* Normal font weight */
 }
 
+/* Style for past events (slightly faded look) */
 .ec-past-event {
-    opacity: 1.0;
+    opacity: 1.0; /* Full opacity (not faded) */
 }
 
+/* Styles for dropdown menu */
 .dropdown {
-    color: inherit;
-    position: absolute;
+    color: inherit; /* Inherit text color */
+    position: absolute; /* Position relative to the page */
 
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    padding: 10px; /* Padding inside the dropdown */
+    z-index: 1000; /* Ensure dropdown is on top */
+    border-radius: 4px; /* Rounded corners */
+    width: 150px; /* Fixed width for the dropdown */
 
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    padding: 10px 10px 10px 10px;
-
-    z-index: 1000;
-    border-radius: 4px;
-    width: 150px;
-
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-family: Arial, sans-serif; /* Use a fallback sans-serif font */
+    font-size: 14px; /* Default font size */
 }
 
+/* Dark theme styles for dropdown */
 .ec-dark .dropdown {
-    color: #adbac7;
-    background-color: #22272e;
-    border: 1px solid #5c697c;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    color: #adbac7; /* Light text color */
+    background-color: #22272e; /* Dark background */
+    border: 1px solid #5c697c; /* Slightly lighter border */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
 }
 
+/* Style for dropdown buttons */
 .dropdown .dropbtn {
-    position: relative;
-    border-radius: 2px;
-    font-size: 15px;
-    width: 100%;
-    padding: 5px;
-    background-color: transparent;
-    color: inherit;
-    border: none;
-    text-align: left;
+    position: relative; /* Position relative within dropdown */
+    border-radius: 2px; /* Slightly rounded corners */
+    font-size: 15px; /* Font size for buttons */
+    width: 100%; /* Buttons take full width of dropdown */
+    padding: 5px; /* Padding inside the button */
+    background-color: transparent; /* Transparent background */
+    color: inherit; /* Inherit text color */
+    border: none; /* Remove border */
+    text-align: left; /* Left-align the text */
 }
 
+/* Hover effect for dropdown buttons */
 .dropdown .dropbtn:hover {
-    background-color: #f1f1f1;
-    color: #000;
-}
-
-.invis {
-    opacity: 0;
+    background-color: #f1f1f1; /* Light gray background on hover */
+    color: #000; /* Change text color to black */
 }
