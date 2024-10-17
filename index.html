@@ -126,6 +126,30 @@
         return eventList;
     };
 
+    function getHiddenAmountBottom(scrollView, element) {
+        const scrollViewRect = scrollView.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+
+        // Calculate the bottom of the scroll view and the element
+        const scrollViewBottom = scrollViewRect.bottom;
+        const elementBottom = elementRect.bottom;
+
+        // Calculate the hidden amount
+        return Math.max(0, elementBottom - scrollViewBottom);
+    }
+
+    function getHiddenAmountLeft(scrollView, element) {
+        const scrollViewRect = scrollView.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+
+        // Calculate the right edge of the scroll view and the element
+        const scrollViewLeft = scrollViewRect.left;
+        const elementLeft = elementRect.left;
+
+        // Calculate the hidden amount
+        return Math.min(0, elementLeft - scrollViewLeft);
+    }
+
     // Create a new div element for the event details box and append it to the body (once)
     const detailsBox = document.createElement('div');
     detailsBox.id = 'event-details-box';
@@ -158,7 +182,7 @@
                 center: 'title',
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,resourceTimelineWeek'
             },
-            scrollTime:  currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(), // Todo: current time
+            scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(), // Todo: current time
             resources: [
                 {id: 1, title: 'KKG'}
             ],
@@ -210,54 +234,62 @@
                 alert(info.event.title + ' clicked.');
             },
 
-            eventMouseEnter: function(info) {
+            eventMouseEnter: function (info) {
                 const event = info.event;
                 const eventElement = info.el;
 
-                // Update the content of the details box
                 detailsBox.innerHTML = `
                     <div class="title">${event.title}</div>
+                    <div style="width: 100%">
                     <div class="desc">${event.extendedProps.description || ''}</div>
                     <div class="subtext">
                         ${event.extendedProps.location ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
                         ${event.extendedProps.category ? '<span class="nerd-icon">\uea83 </span>' + event.extendedProps.category + '<br>' : ''}
                         ${event.start.toLocaleString()}
                     </div>
+                    </div>
                 `;
 
-                // Position the details box near the event element
-                let rect = eventElement.getBoundingClientRect();
-
-
-                const scrollContainer = document.querySelector('.ec-body');
                 let windowScrollY = document.documentElement.scrollTop;
-                // let containerScrollY = scrollContainer.scrollTop;
+                const scrollContainer = document.querySelector('.ec-body');
 
-                detailsBox.style.left = `${rect.left}px`;
-                detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
-                detailsBox.style.display = 'block';
+                function updatePosition() {
+                    let rect = eventElement.getBoundingClientRect();
+                    let containerRect = scrollContainer.getBoundingClientRect();
 
-                // Update the position if the page is scrolled
-                document.addEventListener('scroll', function() {
-                    rect = eventElement.getBoundingClientRect();
                     windowScrollY = document.documentElement.scrollTop;
 
-                    detailsBox.style.left = `${rect.left}px`;
-                    detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
-                }, { passive: true });
+                    const hiddenAmountBottom = getHiddenAmountBottom(scrollContainer, eventElement);
+                    const hiddenAmountLeft = getHiddenAmountLeft(scrollContainer, eventElement);
 
-                scrollContainer.addEventListener('scroll', function() {
-                    rect = eventElement.getBoundingClientRect();
-                    detailsBox.style.left = `${rect.left}px`;
-                    detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
-                }, { passive: true });
+                    if (hiddenAmountBottom > 0) {
+                        detailsBox.style.top = `${containerRect.bottom}px`;
+                    } else {
+                        detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
+                    }
+
+                    if (hiddenAmountLeft < 0) {
+                        detailsBox.style.left = `${containerRect.left}px`;
+                    } else {
+                        detailsBox.style.left = `${rect.left}px`;
+                    }
+                }
+
+                updatePosition();
+                detailsBox.style.display = 'block';
+
+                document.addEventListener('scroll', function () {
+                    updatePosition();
+                }, {passive: true});
+
+                scrollContainer.addEventListener('scroll', function () {
+                    updatePosition();
+                }, {passive: true});
             },
 
-            /*
             eventMouseLeave: function() {
                 detailsBox.style.display = 'none';
             },
-            */
         });
     });
 </script>
