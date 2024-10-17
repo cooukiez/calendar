@@ -12,7 +12,7 @@ body {
 }
 
 .ec-event-body {
-    margin-left: 5px !important;
+    margin-left: 0.1rem !important;
 }
 
 @media (max-width: 576px) {
