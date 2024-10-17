@@ -162,14 +162,20 @@
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
 
-        const mCategories = new Map([
+        const mCategoriesC = new Map([
             ['Klausur', '#800080'],
             ['Wichtig', '#b32f28'],
             ['Ferien', '#2E8B57'],
             ['Veranstaltung', '#a29417'],
-            ['Saufen', '#B22222'],
         ]);
-        mCategories.set(null, '#4682B4');
+        const mCategoriesID = new Map([
+            ['Klausur', 2],
+            ['Wichtig', 3],
+            ['Ferien', 4],
+            ['Veranstaltung', 5],
+        ]);
+        mCategoriesC.set(null, '#4682B4');
+        mCategoriesID.set(null, 1);
         const today = new Date();
 
         // Initialize the Event Calendar after the events have been fetched
@@ -185,7 +191,11 @@
             },
             scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(),
             resources: [
-                {id: 1, title: 'KKG'}
+                {id: 1, title: 'KKG'},
+                {id: 2, title: 'Klausur'},
+                {id: 3, title: 'Wichtig'},
+                {id: 4, title: 'Ferien'},
+                {id: 5, title: 'Veranstaltung'},
             ],
             events: events.map(event => ({
                 title: event.summary,
@@ -198,9 +208,9 @@
                     category: event.category,
                 },
                 id: event.category,
-                color: mCategories.get(event.category),
+                color: mCategoriesC.get(event.category),
                 className: event.pastDate ? 'ec-past-event' : '',
-                resourceId: 1,
+                resourceId: mCategoriesID.get(event.category)
             })),
 
             customButtons: {
@@ -209,10 +219,9 @@
                     click: function (event) {
                         let dropdown = document.getElementById('dropdown');
                         if (!dropdown) {
-
                             dropdown = document.createElement('div');
                             dropdown.id = 'dropdown';
-                            for (const ckey of mCategories.keys()) {
+                            for (const ckey of mCategoriesC.keys()) {
                                 if (ckey !== null) {
                                     const button = document.createElement('button');
                                     button.id = ckey;
@@ -233,9 +242,9 @@
                             dropdown.style.left = `${buttonPosition.right - dropdownWidth + window.scrollX}px`;
 
                             document.addEventListener('click', function outsideClickListener(e) {
-                                console.log(mCategories.has(e.target.id))
-                                if (mCategories.has(e.target.id)) {
-                                    for (const pkey of mCategories.keys()) {
+                                console.log(mCategoriesC.has(e.target.id))
+                                if (mCategoriesC.has(e.target.id)) {
+                                    for (const pkey of mCategoriesC.keys()) {
                                         if(pkey === e.target.id) {
                                             events.forEach(event => {
                                                 if (event.category === pkey) {
@@ -349,7 +358,9 @@
                 detailsBox.style.display = 'none';
             },
         });
+        console.log(ec.getOption("resources"))
     });
+
 
 </script>
 </body>
