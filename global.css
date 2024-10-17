@@ -155,3 +155,7 @@ body.ec-dark svg.light {
     font-style: normal;
     font-weight: normal;
 }
+
+.ec-past-event {
+    /* opacity: 0.25; */
+}

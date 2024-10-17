@@ -9,9 +9,10 @@ Calendar library https://github.com/vkurko/calendar
 - [ ] (fix event details not staying relative to event)
 - [x] support colors
 - [x] set auto to system theme
-- [ ] set scroll time to current time
-- [ ] differentiate past events
-- [ ] onclick event function
+- [x] set scroll time to current time
+- [x] differentiate past events
+- [ ] (onclick event function)
 - [ ] timeline
 - [ ] filtering events
 - [ ] fix mobile mode
+- [ ] (blurring event details)

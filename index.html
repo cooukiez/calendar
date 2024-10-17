@@ -91,17 +91,21 @@
             if (rrule) {
                 // Handle recurrence using ical.js and expand the RRULE
                 const iterator = rrule.iterator(vevent.startDate);
+
                 let next; // next date for the event
                 while ((next = iterator.next())) {
+                    const nextEndDate = new Date(next.toJSDate().getTime() + (endDate - startDate)); // Calculate duration
+
                     // Create the event for each occurrence
                     eventList.push({
                         summary: vevent.summary,
                         startDate: next.toJSDate(),
-                        endDate: new Date(next.toJSDate().getTime() + (endDate - startDate)), // Calculate duration
+                        endDate: nextEndDate,
                         allDay: vevent.startDate.isDate,
                         description: vevent.description,
                         category: category,
                         location: location,
+                        pastDate: nextEndDate < currentDate,
                     });
                 }
             } else {
@@ -114,12 +118,20 @@
                     description: vevent.description,
                     category: category,
                     location: location,
+                    pastDate: vevent.endDate.toJSDate() < currentDate,
                 });
             }
         });
 
         return eventList;
     };
+
+    // Create a new div element for the event details box and append it to the body (once)
+    const detailsBox = document.createElement('div');
+    detailsBox.id = 'event-details-box';
+    detailsBox.classList.add('event-details-box');
+    detailsBox.style.display = 'none'; // Initially hidden
+    document.body.appendChild(detailsBox);
 
     // Fetch and parse the ICS data
     fetchICS(icsUrl).then(icsData => {
@@ -158,6 +170,7 @@
                     category: event.category,
                 },
                 color: mCategories.get(event.category),
+                className: event.pastDate ? 'ec-past-event' : '',
             })),
 
             allDayContent: 'Ganztägig',
@@ -192,17 +205,14 @@
                 alert(info.event.title + ' clicked.');
             },
 
-            eventMouseEnter: function (info) {
+
+            eventMouseEnter: function(info) {
                 const event = info.event;
                 const eventElement = info.el;
 
-                // Create a new div element for the event details box
-                const detailsBox = document.createElement('div');
-                detailsBox.id = 'event-details-box';
+                // Update the content of the details box
                 detailsBox.innerHTML = `
-                    <div class="title">
-                        ${event.title}
-                    </div>
+                    <div class="title">${event.title}</div>
                     <div class="desc">${event.extendedProps.description || ''}</div>
                     <div class="subtext">
                         ${event.extendedProps.location ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
@@ -211,21 +221,28 @@
                     </div>
                 `;
 
-                detailsBox.classList.add('event-details-box');
-
+                // Position the details box near the event element
                 const rect = eventElement.getBoundingClientRect();
-                detailsBox.style.left = `${rect.left}px`;
-                detailsBox.style.top = `${rect.bottom + window.scrollY}px`;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-                document.body.appendChild(detailsBox);
+                // Adjust for the scrolling position
+                detailsBox.style.left = `${rect.left + scrollLeft}px`;
+                detailsBox.style.top = `${rect.bottom + scrollTop}px`;
+
+                // Show the details box
+                detailsBox.style.display = 'block';
+
+                // Update the position if the page is scrolled
+                document.addEventListener('scroll', function() {
+                    const rect = eventElement.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+                    detailsBox.style.left = `${rect.left + scrollLeft}px`;
+                    detailsBox.style.top = `${rect.bottom + scrollTop}px`;
+                }, { passive: true });
             },
-
-            eventMouseLeave: function (info) {
-                const existingBox = document.getElementById('event-details-box');
-                if (existingBox) {
-                    existingBox.remove();
-                }
-            }
         });
     });
 </script>
