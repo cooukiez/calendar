@@ -43,6 +43,21 @@
 </main>
 
 <script type="text/javascript">
+    // Function to toggle dark mode based on system theme
+    function setSystemTheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('ec-dark');
+        } else {
+            document.body.classList.remove('ec-dark');
+        }
+    }
+
+    // Call the function when the page loads
+    window.addEventListener('load', setSystemTheme);
+
+    // Listen for changes in the system theme
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setSystemTheme);
+
     const corsProxy = 'https://corsproxy.io/?';
     const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
 
