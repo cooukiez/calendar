@@ -112,7 +112,7 @@ body.ec-dark svg.light {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 3000;
-    width: 400px;
+    width: min-content;
 
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -164,13 +164,19 @@ body.ec-dark svg.light {
 .dropdown {
     color: inherit;
     position: absolute;
+
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
+
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    padding: 10px 10px 10px 10px;
+
     z-index: 1000;
     border-radius: 4px;
-    min-width: 50px;
+    width: 150px;
+
     font-family: Arial, sans-serif;
     font-size: 14px;
 }
@@ -183,8 +189,20 @@ body.ec-dark svg.light {
 }
 
 .dropdown .dropbtn {
+    position: relative;
+    border-radius: 2px;
     font-size: 15px;
-    font-weight: bold;
+    width: 100%;
+    padding: 5px;
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    text-align: left;
+}
+
+.dropdown .dropbtn:hover {
+    background-color: #f1f1f1;
+    color: #000;
 }
 
 .invis {

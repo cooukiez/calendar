@@ -170,7 +170,7 @@
         ]);
 
         const mapResources = new Map([
-            ['All', 1],
+            ['Alle', 1],
             ['Klausur', 2],
             ['Wichtig', 3],
             ['Ferien', 4],
@@ -251,19 +251,19 @@
                             document.addEventListener('click', function outsideClickListener(element) {
                                 if (mapResources.has(element.target.id)) {
                                     for (const pkey of mapResources.keys()) {
-                                        if (element.target.id === "All") {
+                                        if (element.target.id === "Alle") {
                                             ec.setOption("resources", resources);
+                                            ec.setOption("filterEventsWithResources", true);
                                             break;
                                         }
-                                        if(pkey === element.target.id) {
-                                            ec.setOption("resources", [
-                                                {id: mapResources.get(pkey), title: pkey},
-                                            ]);
+                                        if (pkey === element.target.id) {
+                                            ec.setOption("resources", [{id: mapResources.get(pkey), title: pkey}]);
+                                            ec.setOption("filterEventsWithResources", true);
                                             break;
                                         }
                                     }
 
-                                    ec.setOption("filterEventsWithResources", true);
+
                                 }
                             });
                         } else {
@@ -359,7 +359,7 @@
                 }, {passive: true});
             },
 
-            eventMouseLeave: function() {
+            eventMouseLeave: function () {
                 detailsBox.style.display = 'none';
             },
         });
