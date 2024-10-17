@@ -133,6 +133,8 @@
         ]);
         mCategories.set(null, '#4682B4');
 
+        const today = new Date();
+
         // Initialize the Event Calendar after the events have been fetched
         const ec = new EventCalendar(document.getElementById('ec'), {
             locale: 'de',
@@ -184,6 +186,10 @@
 
             eventStartEditable: false, // Disable editing the start time
             eventDurationEditable: false, // Disable editing the duration
+
+            eventClick: function (info) {
+                alert(info.event.title + ' clicked.');
+            },
 
             eventMouseEnter: function (info) {
                 const event = info.event;
