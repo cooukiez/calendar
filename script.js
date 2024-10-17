@@ -264,6 +264,8 @@ fetchICS(icsUrl).then(icsData => {
         eventDurationEditable: false, // Disable editing the duration
 
         eventClick: function (info) {
+            return; // Aktivieren / Deaktivieren der Download Funktion
+
             // Prevent the default action (if any)
             info.jsEvent.preventDefault();
 
