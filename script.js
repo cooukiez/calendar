@@ -217,8 +217,11 @@ fetchICS(icsUrl).then(icsData => {
                                         break;
                                     }
                                 }
+                            }
 
-
+                            if (!dropdown.contains(element.target) && element.target !== event.target) {
+                                dropdown.remove();
+                                document.removeEventListener('click', outsideClickListener);
                             }
                         });
                     } else {
