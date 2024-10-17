@@ -12,7 +12,7 @@ Calendar library https://github.com/vkurko/calendar
 - [x] set scroll time to current time
 - [x] differentiate past events
 - [ ] (onclick event function)
-- [ ] fix event details not staying in ec-body
+- [x] fix event details not staying in ec-body
 - [x] timeline
 - [ ] filtering events
 - [ ] fix mobile mode

@@ -14,7 +14,7 @@
 
     <!-- Load scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.0/ical.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.1/event-calendar.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.6.2/event-calendar.min.js" defer></script>
 </head>
 
 <body>
@@ -162,20 +162,31 @@
     fetchICS(icsUrl).then(icsData => {
         const events = parseICS(icsData);
 
-        const mCategoriesC = new Map([
+        const mapCategories = new Map([
             ['Klausur', '#800080'],
             ['Wichtig', '#b32f28'],
             ['Ferien', '#2E8B57'],
             ['Veranstaltung', '#a29417'],
         ]);
-        const mCategoriesID = new Map([
+
+        const mapResources = new Map([
+            ['All', 1],
             ['Klausur', 2],
             ['Wichtig', 3],
             ['Ferien', 4],
             ['Veranstaltung', 5],
         ]);
-        mCategoriesC.set(null, '#4682B4');
-        mCategoriesID.set(null, 1);
+
+        const resources = [
+            {id: 1, title: ''},
+            {id: 2, title: 'Klausur'},
+            {id: 3, title: 'Wichtig'},
+            {id: 4, title: 'Ferien'},
+            {id: 5, title: 'Veranstaltung'},
+        ];
+
+        mapCategories.set(null, '#4682B4');
+        mapResources.set(null, 1);
         const today = new Date();
 
         // Initialize the Event Calendar after the events have been fetched
@@ -187,16 +198,12 @@
             headerToolbar: {
                 start: 'prev,next today',
                 center: 'title',
-                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,resourceTimelineWeek Filter',
+                end: 'dayGridMonth,timeGridWeek,timeGridDay listWeek,resourceTimelineWeek,Filter',
             },
             scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(),
-            resources: [
-                {id: 1, title: 'KKG'},
-                {id: 2, title: 'Klausur'},
-                {id: 3, title: 'Wichtig'},
-                {id: 4, title: 'Ferien'},
-                {id: 5, title: 'Veranstaltung'},
-            ],
+
+            resources: resources,
+
             events: events.map(event => ({
                 title: event.summary,
                 start: event.startDate,
@@ -208,9 +215,9 @@
                     category: event.category,
                 },
                 id: event.category,
-                color: mCategoriesC.get(event.category),
+                color: mapCategories.get(event.category),
                 className: event.pastDate ? 'ec-past-event' : '',
-                resourceId: mCategoriesID.get(event.category)
+                resourceId: mapResources.get(event.category)
             })),
 
             customButtons: {
@@ -221,7 +228,7 @@
                         if (!dropdown) {
                             dropdown = document.createElement('div');
                             dropdown.id = 'dropdown';
-                            for (const ckey of mCategoriesC.keys()) {
+                            for (const ckey of mapResources.keys()) {
                                 if (ckey !== null) {
                                     const button = document.createElement('button');
                                     button.id = ckey;
@@ -241,24 +248,22 @@
                             dropdown.style.top = `${buttonPosition.bottom + window.scrollY}px`; // Align bottom (consider scroll)
                             dropdown.style.left = `${buttonPosition.right - dropdownWidth + window.scrollX}px`;
 
-                            document.addEventListener('click', function outsideClickListener(e) {
-                                console.log(mCategoriesC.has(e.target.id))
-                                if (mCategoriesC.has(e.target.id)) {
-                                    for (const pkey of mCategoriesC.keys()) {
-                                        if(pkey === e.target.id) {
-                                            events.forEach(event => {
-                                                if (event.category === pkey) {
-                                                    event.className = 'invis';
-                                                    ec.updateEvent(event);
-                                                }
-                                            });
+                            document.addEventListener('click', function outsideClickListener(element) {
+                                if (mapResources.has(element.target.id)) {
+                                    for (const pkey of mapResources.keys()) {
+                                        if (pkey === "All") {
+                                            ec.setOption("resources", resources);
+                                            break;
+                                        }
+                                        if(pkey === element.target.id) {
+                                            ec.setOption("resources", [
+                                                {id: mapResources.get(pkey), title: pkey},
+                                            ]);
+                                            break;
                                         }
                                     }
-                                }
-                                console.log(events)
-                                if (!dropdown.contains(e.target) && e.target !== event.target) {
-                                    dropdown.remove();
-                                    document.removeEventListener('click', outsideClickListener);
+
+                                    ec.setOption("filterEventsWithResources", true);
                                 }
                             });
                         } else {
