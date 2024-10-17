@@ -62,6 +62,7 @@ const parseICS = (icsData) => {
                     category: category,
                     location: location,
                     pastDate: nextEndDate < currentDate,
+                    raw: event.toString(),
                 });
             }
         } else {
@@ -75,6 +76,7 @@ const parseICS = (icsData) => {
                 category: category,
                 location: location,
                 pastDate: vevent.endDate.toJSDate() < currentDate,
+                raw: event.toString(),
             });
         }
     });
@@ -165,6 +167,7 @@ fetchICS(icsUrl).then(icsData => {
                 description: event.description,
                 location: event.location,
                 category: event.category,
+                raw: event.raw,
             },
             id: event.category,
             color: mapCategories.get(event.category),
@@ -261,9 +264,28 @@ fetchICS(icsUrl).then(icsData => {
         eventDurationEditable: false, // Disable editing the duration
 
         eventClick: function (info) {
+            // Prevent the default action (if any)
             info.jsEvent.preventDefault();
 
-            alert(info.event.title + ' clicked.');
+            // Get event details
+            const title = info.event.title;
+
+            // Create a Blob from the .ics content
+            const blob = new Blob([info.event.extendedProps.raw], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary link element to download the .ics file
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${title}.ics`;
+
+            // Append the link, trigger a click, and remove the link
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Release the URL object
+            URL.revokeObjectURL(url);
         },
 
         eventMouseEnter: function (info) {
