@@ -61,6 +61,7 @@
     const corsProxy = 'https://corsproxy.io/?';
     const icsUrl = 'https://iserv.kkg.berlin/iserv/public/calendar?key=eb329e8158c8ef6188a3cc2de8740c5b'; // Replace with your ICS feed URL
     const currentDate = new Date();
+    let key;
 
     const fetchICS = async (url) => {
         try {
@@ -169,7 +170,6 @@
             ['Saufen', '#B22222'],
         ]);
         mCategories.set(null, '#4682B4');
-
         const today = new Date();
 
         // Initialize the Event Calendar after the events have been fetched
@@ -177,9 +177,11 @@
             locale: 'de',
 
             view: 'dayGridMonth',
+
             headerToolbar: {
                 start: 'prev,next today',
                 center: 'title',
+                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek Filter'
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,resourceTimelineWeek'
             },
             scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(), // Todo: current time
@@ -196,10 +198,67 @@
                     location: event.location,
                     category: event.category,
                 },
+                id: event.category,
                 color: mCategories.get(event.category),
                 className: event.pastDate ? 'ec-past-event' : '',
                 resourceId: 1,
             })),
+
+            customButtons: {
+                Filter: {
+                    text: 'Filter',
+                    click: function (event) {
+                        let dropdown = document.getElementById('dropdown');
+                        if (!dropdown) {
+
+                            dropdown = document.createElement('div');
+                            dropdown.id = 'dropdown';
+                            for (const ckey of mCategories.keys()) {
+                                if (ckey !== null) {
+                                    const button = document.createElement('button');
+                                    button.id = ckey;
+                                    button.textContent = ckey;
+                                    button.classList.add('dropbtn');
+                                    dropdown.appendChild(button);
+                                    const lineBreak1 = document.createElement('br');
+                                    dropdown.appendChild(lineBreak1);
+                                }
+                            }
+                            dropdown.classList.add('dropdown');
+
+                            document.body.appendChild(dropdown);
+                            const dropdownWidth = dropdown.offsetWidth;
+                            const buttonPosition = event.target.getBoundingClientRect();
+
+                            dropdown.style.top = `${buttonPosition.bottom + window.scrollY}px`; // Align bottom (consider scroll)
+                            dropdown.style.left = `${buttonPosition.right - dropdownWidth + window.scrollX}px`;
+
+                            document.addEventListener('click', function outsideClickListener(e) {
+                                console.log(mCategories.has(e.target.id))
+                                if (mCategories.has(e.target.id)) {
+                                    for (const pkey of mCategories.keys()) {
+                                        if(pkey === e.target.id) {
+                                            events.forEach(event => {
+                                                if (event.category === pkey) {
+                                                    event.className = 'invis';
+                                                    ec.updateEvent(event);
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                                console.log(events)
+                                if (!dropdown.contains(e.target) && e.target !== event.target) {
+                                    dropdown.remove();
+                                    document.removeEventListener('click', outsideClickListener);
+                                }
+                            });
+                        } else {
+                            dropdown.remove();
+                        }
+                    }
+                }
+            },
 
             allDayContent: 'Ganztägig',
 
@@ -292,6 +351,7 @@
             },
         });
     });
+
 </script>
 </body>
 </html>
