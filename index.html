@@ -217,7 +217,7 @@
                 id: event.category,
                 color: mapCategories.get(event.category),
                 className: event.pastDate ? 'ec-past-event' : '',
-                resourceId: mapResources.get(event.category)
+                resourceId: mapResources.get(event.category) || 1,
             })),
 
             customButtons: {
@@ -251,7 +251,7 @@
                             document.addEventListener('click', function outsideClickListener(element) {
                                 if (mapResources.has(element.target.id)) {
                                     for (const pkey of mapResources.keys()) {
-                                        if (pkey === "All") {
+                                        if (element.target.id === "All") {
                                             ec.setOption("resources", resources);
                                             break;
                                         }
