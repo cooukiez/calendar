@@ -4,10 +4,5 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="@event-calendar/build" level="application" />
-    <orderEntry type="library" name="@event-calendar/build" level="application" />
-    <orderEntry type="library" name="ical.js" level="application" />
-    <orderEntry type="library" name="ical.js" level="application" />
-    <orderEntry type="library" name="@event-calendar/build" level="application" />
   </component>
 </module>
