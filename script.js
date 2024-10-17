@@ -143,19 +143,17 @@ fetchICS(icsUrl).then(icsData => {
     mapCategories.set(null, '#4682B4');
     mapResources.set(null, 1);
 
-    // Initialize the Event Calendar after the events have been fetched
     const ec = new EventCalendar(document.getElementById('ec'), {
         locale: 'de',
-
         view: 'dayGridMonth',
 
         headerToolbar: {
             start: 'prev,next today',
             center: 'title',
-            end: 'dayGridMonth,timeGridWeek,timeGridDay listWeek,resourceTimelineWeek,Filter',
+            end: 'dayGridMonth,timeGridWeek,timeGridDay listYear,resourceTimelineWeek,Filter',
         },
-        scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(),
 
+        scrollTime: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds(),
         resources: resources,
 
         events: events.map(event => ({
@@ -182,6 +180,7 @@ fetchICS(icsUrl).then(icsData => {
                     if (!dropdown) {
                         dropdown = document.createElement('div');
                         dropdown.id = 'dropdown';
+
                         for (const ckey of mapResources.keys()) {
                             if (ckey !== null) {
                                 const button = document.createElement('button');
@@ -189,10 +188,11 @@ fetchICS(icsUrl).then(icsData => {
                                 button.textContent = ckey;
                                 button.classList.add('dropbtn');
                                 dropdown.appendChild(button);
-                                const lineBreak1 = document.createElement('br');
-                                dropdown.appendChild(lineBreak1);
+
+                                dropdown.innerHTML += "<br>";
                             }
                         }
+
                         dropdown.classList.add('dropdown');
 
                         document.body.appendChild(dropdown);
@@ -235,7 +235,7 @@ fetchICS(icsUrl).then(icsData => {
         allDayContent: 'Ganztägig',
 
         buttonText: {
-            listWeek: 'Übersicht',
+            listYear: 'Übersicht',
             dayGridMonth: 'Monat',
             timeGridWeek: 'Woche',
             timeGridDay: 'Tag',
@@ -249,7 +249,6 @@ fetchICS(icsUrl).then(icsData => {
                 slotLabelFormat: {hour: '2-digit', minute: '2-digit', hour12: false}, // 24h time format
             },
             resourceTimeGridWeek: {pointer: true},
-            //slotWidth: 100,
         },
 
         slotEventOverlap: false,
@@ -262,6 +261,8 @@ fetchICS(icsUrl).then(icsData => {
         eventDurationEditable: false, // Disable editing the duration
 
         eventClick: function (info) {
+            info.jsEvent.preventDefault();
+
             alert(info.event.title + ' clicked.');
         },
 
@@ -271,13 +272,11 @@ fetchICS(icsUrl).then(icsData => {
 
             detailsBox.innerHTML = `
                     <div class="title">${event.title}</div>
-                    <div style="width: 100%">
                     <div class="desc">${event.extendedProps.description || ''}</div>
                     <div class="subtext">
                         ${event.extendedProps.location ? '<span class="nerd-icon">\uf450 </span>' + event.extendedProps.location + '<br>' : ''}
                         ${event.extendedProps.category ? '<span class="nerd-icon">\uea83 </span>' + event.extendedProps.category + '<br>' : ''}
                         ${event.start.toLocaleString()}
-                    </div>
                     </div>
                 `;
 
@@ -293,17 +292,13 @@ fetchICS(icsUrl).then(icsData => {
                 const hiddenAmountBottom = getHiddenAmountBottom(scrollContainer, eventElement);
                 const hiddenAmountLeft = getHiddenAmountLeft(scrollContainer, eventElement);
 
-                if (hiddenAmountBottom > 0) {
-                    detailsBox.style.top = `${containerRect.bottom}px`;
-                } else {
-                    detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
-                }
+                detailsBox.style.top = hiddenAmountBottom > 0
+                    ? `${scrollContainer.getBoundingClientRect().bottom}px`
+                    : `${rect.bottom + window.scrollY}px`;
 
-                if (hiddenAmountLeft < 0) {
-                    detailsBox.style.left = `${containerRect.left}px`;
-                } else {
-                    detailsBox.style.left = `${rect.left}px`;
-                }
+                detailsBox.style.left = hiddenAmountLeft < 0
+                    ? `${scrollContainer.getBoundingClientRect().left}px`
+                    : `${rect.left}px`;
             }
 
             updatePosition();
@@ -322,6 +317,5 @@ fetchICS(icsUrl).then(icsData => {
             detailsBox.style.display = 'none';
         },
     });
-    console.log(ec.getOption("resources"))
 });
 
