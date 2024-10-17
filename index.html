@@ -240,7 +240,6 @@
 
                 scrollContainer.addEventListener('scroll', function() {
                     rect = eventElement.getBoundingClientRect();
-                    // containerScrollY = scrollContainer.scrollTop;
                     detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
                 }, { passive: true });
             },
