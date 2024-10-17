@@ -205,7 +205,6 @@
                 alert(info.event.title + ' clicked.');
             },
 
-
             eventMouseEnter: function(info) {
                 const event = info.event;
                 const eventElement = info.el;
@@ -222,26 +221,32 @@
                 `;
 
                 // Position the details box near the event element
-                const rect = eventElement.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                let rect = eventElement.getBoundingClientRect();
+                detailsBox.style.left = `${rect.left}px`;
 
-                // Adjust for the scrolling position
-                detailsBox.style.left = `${rect.left + scrollLeft}px`;
-                detailsBox.style.top = `${rect.bottom + scrollTop}px`;
+                const scrollContainer = document.querySelector('.ec-body');
+                let windowScrollY = document.documentElement.scrollTop;
+                // let containerScrollY = scrollContainer.scrollTop;
 
-                // Show the details box
                 detailsBox.style.display = 'block';
+                detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
 
                 // Update the position if the page is scrolled
                 document.addEventListener('scroll', function() {
-                    const rect = eventElement.getBoundingClientRect();
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-                    detailsBox.style.left = `${rect.left + scrollLeft}px`;
-                    detailsBox.style.top = `${rect.bottom + scrollTop}px`;
+                    rect = eventElement.getBoundingClientRect();
+                    windowScrollY = document.documentElement.scrollTop;
+                    detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
                 }, { passive: true });
+
+                scrollContainer.addEventListener('scroll', function() {
+                    rect = eventElement.getBoundingClientRect();
+                    // containerScrollY = scrollContainer.scrollTop;
+                    detailsBox.style.top = `${rect.bottom + windowScrollY}px`;
+                }, { passive: true });
+            },
+
+            eventMouseLeave: function() {
+                detailsBox.style.display = 'none';
             },
         });
     });
