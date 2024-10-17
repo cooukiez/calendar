@@ -15,6 +15,10 @@ body {
     margin-left: 0.1rem !important;
 }
 
+.ec-title {
+
+}
+
 @media (max-width: 576px) {
     body {
         padding: 0;

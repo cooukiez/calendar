@@ -11,10 +11,10 @@ Calendar library https://github.com/vkurko/calendar
 - [x] set auto to system theme
 - [x] set scroll time to current time
 - [x] differentiate past events
-- [ ] (onclick event function)
+- [x] (onclick event function)
 - [x] fix event details not staying in ec-body
 - [x] timeline
-- [ ] filtering events
+- [x] filtering events
 - [ ] fix mobile mode
-- [ ] (blurring event details)
+- [x] (blurring event details)
 - [ ] cleaning up code
